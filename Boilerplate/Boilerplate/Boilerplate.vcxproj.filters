@@ -16,6 +16,9 @@
     <Filter Include="헤더 파일\Image">
       <UniqueIdentifier>{1c4a9cbc-dc29-4ca4-bd2a-960fe5065584}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\SoundPlayer">
+      <UniqueIdentifier>{93021437-6432-40dd-bae6-27c792c9d93f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -34,6 +37,9 @@
     </ClInclude>
     <ClInclude Include="ImageLayerInterface.h">
       <Filter>헤더 파일\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundPlayer.h">
+      <Filter>헤더 파일\SoundPlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -58,5 +64,13 @@
     <Image Include="Character3Selected.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\CodeTheCompany\ConsoleGame\resources\sounds\null_sound.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="..\..\..\CodeTheCompany\ConsoleGame\resources\sounds\start_bgm.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
   </ItemGroup>
 </Project>

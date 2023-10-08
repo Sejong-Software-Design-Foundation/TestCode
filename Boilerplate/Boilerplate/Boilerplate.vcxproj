@@ -146,6 +146,7 @@
     <ClInclude Include="ImageLayer.h" />
     <ClInclude Include="ImageLayerImpl.h" />
     <ClInclude Include="ImageLayerInterface.h" />
+    <ClInclude Include="SoundPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Character2.bmp" />
@@ -155,6 +156,10 @@
     <Image Include="Character1Selected.bmp" />
     <Image Include="Character3Selected.bmp" />
     <Image Include="TestImage.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\CodeTheCompany\ConsoleGame\resources\sounds\null_sound.wav" />
+    <Media Include="..\..\..\CodeTheCompany\ConsoleGame\resources\sounds\start_bgm.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

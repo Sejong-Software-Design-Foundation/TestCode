@@ -11,12 +11,14 @@ S 를 눌러서 캐릭터 변경 가능
 #include <time.h>
 #include <conio.h>
 #include "ImageLayer.h"
+#include "SoundPlayer.h"
 
 #define LEFT 75
 #define RIGHT 77
 #define UP 72
 #define DOWN 80
 #define S 115
+#define M 77
 #define SPEED 100
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
@@ -31,6 +33,8 @@ void initialize();
 int main() {
 	int selectedCharacterIndex = 1;
 	initialize();
+
+	playBGM("start_bgm.wav");
 
 	ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
 	imageLayer.initialize(&imageLayer);
@@ -62,7 +66,7 @@ int main() {
 					selectedCharacterIndex = 1;
 				}
 
-				if (selectedCharacterIndex == 1){
+				if (selectedCharacterIndex == 1) {
 					imageLayer.images[1].fileName = "Character1Selected.bmp";
 					imageLayer.images[2].fileName = "Character2.bmp";
 					imageLayer.images[3].fileName = "Character3.bmp";
@@ -92,7 +96,6 @@ int main() {
 			case DOWN:
 				imageLayer.images[selectedCharacterIndex].y += SPEED;
 				break;
-
 			}
 			imageLayer.renderAll(&imageLayer);
 		}
