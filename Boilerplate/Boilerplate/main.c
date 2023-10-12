@@ -12,6 +12,7 @@ S 를 눌러서 캐릭터 변경 가능
 #include <conio.h>
 #include "ImageLayer.h"
 #include "SoundPlayer.h"
+#include <math.h>
 
 #define LEFT 75
 #define RIGHT 77
@@ -39,15 +40,16 @@ int main() {
 	ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
 	imageLayer.initialize(&imageLayer);
 
-	Image images[4] = {
+	Image images[5] = {
 		{"TestImage.bmp", 0, 0, 4},
 		{"Character1Selected.bmp", 200, 200, 8},
 		{"Character2.bmp", 600, 200, 8},
 		{"Character3.bmp", 1200, 200, 8},
+		{"Ball.bmp", 1500, 500, 1},
 	};
 
 
-	imageLayer.imageCount = 4;
+	imageLayer.imageCount = 5;
 	imageLayer.images = images;
 
 	imageLayer.renderAll(&imageLayer);
@@ -56,6 +58,19 @@ int main() {
 	imageLayer.fadeIn(&imageLayer, NULL);
 
 	while (1) {
+		double angle = atan2(images[selectedCharacterIndex].y - images[4].y, images[selectedCharacterIndex].x - images[4].x);
+
+		// 이동할 거리를 계산합니다.
+		double dx = SPEED * 0.5 * cos(angle);
+		double dy = SPEED * 0.5 * sin(angle);
+
+		// index 4에 해당하는 이미지의 좌표를 업데이트합니다.
+		images[4].x += dx;
+		images[4].y += dy;
+
+		Sleep(100);
+		imageLayer.renderAll(&imageLayer);
+
 		while (_kbhit() != 0) {
 			int key = _getch();
 
@@ -97,10 +112,11 @@ int main() {
 				imageLayer.images[selectedCharacterIndex].y += SPEED;
 				break;
 			}
+
 			imageLayer.renderAll(&imageLayer);
 		}
 	}
-
+	
 	return 0;
 }
 

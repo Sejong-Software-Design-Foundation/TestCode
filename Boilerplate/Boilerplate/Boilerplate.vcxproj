@@ -149,6 +149,7 @@
     <ClInclude Include="SoundPlayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Ball.bmp" />
     <Image Include="Character2.bmp" />
     <Image Include="Character1.bmp" />
     <Image Include="Character2Selected.bmp" />
