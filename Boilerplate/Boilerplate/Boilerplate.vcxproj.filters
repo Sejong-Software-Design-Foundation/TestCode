@@ -67,6 +67,18 @@
     <Image Include="Ball.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="background_tile.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="ores.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="foo.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="simpleMap.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\CodeTheCompany\ConsoleGame\resources\sounds\null_sound.wav">

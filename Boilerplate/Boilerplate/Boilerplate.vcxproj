@@ -149,6 +149,7 @@
     <ClInclude Include="SoundPlayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="background_tile.bmp" />
     <Image Include="Ball.bmp" />
     <Image Include="Character2.bmp" />
     <Image Include="Character1.bmp" />
@@ -156,6 +157,9 @@
     <Image Include="Character3.bmp" />
     <Image Include="Character1Selected.bmp" />
     <Image Include="Character3Selected.bmp" />
+    <Image Include="foo.bmp" />
+    <Image Include="ores.bmp" />
+    <Image Include="simpleMap.bmp" />
     <Image Include="TestImage.bmp" />
   </ItemGroup>
   <ItemGroup>

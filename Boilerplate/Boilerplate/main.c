@@ -20,19 +20,20 @@ S 를 눌러서 캐릭터 변경 가능
 #define DOWN 80
 #define S 115
 #define M 77
-#define SPEED 100
+#define SPEED 48
+#define ESC 27
 
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
 
-
+int tileInfo[20][50];
 void getHandle();
 void removeCursor();
 void resizeConsole(int w, int h);
 void initialize();
+void dig(int x, int y, ImageLayer* imageLayer);
 
 int main() {
-	int selectedCharacterIndex = 1;
 	initialize();
 
 	playBGM("start_bgm.wav");
@@ -40,79 +41,61 @@ int main() {
 	ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
 	imageLayer.initialize(&imageLayer);
 
-	Image images[5] = {
-		{"TestImage.bmp", 0, 0, 4},
+	Image images[1100] = {
+		{"foo.bmp", 48,48, 1},
+		/*{"TestImage.bmp", 0, 0, 4},
 		{"Character1Selected.bmp", 200, 200, 8},
 		{"Character2.bmp", 600, 200, 8},
 		{"Character3.bmp", 1200, 200, 8},
-		{"Ball.bmp", 1500, 500, 1},
+		{"Ball.bmp", 1500, 500, 1},*/
+		//{"simpleMap.bmp", 0, 240, 1}
 	};
 
+	imageLayer.imageCount = 2;
+	for (int y = 240;y < 240 + 48 * 20;y+=48) {
+		for (int x = 0;x < 48 * 50;x += 48) {
+			Image newTile = { "simpleMap.bmp", x, y, 1 };
+			images[imageLayer.imageCount++] = newTile;
+			tileInfo[(y - 240) / 48][x / 48] = 1;
+		}
+	}
 
-	imageLayer.imageCount = 5;
 	imageLayer.images = images;
 
 	imageLayer.renderAll(&imageLayer);
 
-	imageLayer.fadeOut(&imageLayer, NULL);
-	imageLayer.fadeIn(&imageLayer, NULL);
 
 	while (1) {
-		double angle = atan2(images[selectedCharacterIndex].y - images[4].y, images[selectedCharacterIndex].x - images[4].x);
-
-		// 이동할 거리를 계산합니다.
-		double dx = SPEED * 0.5 * cos(angle);
-		double dy = SPEED * 0.5 * sin(angle);
-
-		// index 4에 해당하는 이미지의 좌표를 업데이트합니다.
-		images[4].x += dx;
-		images[4].y += dy;
-
-		Sleep(100);
-		imageLayer.renderAll(&imageLayer);
-
 		while (_kbhit() != 0) {
 			int key = _getch();
 
 			switch (key) {
 			case S:
-				selectedCharacterIndex++;
-				if (selectedCharacterIndex == 4) {
-					selectedCharacterIndex = 1;
-				}
-
-				if (selectedCharacterIndex == 1) {
-					imageLayer.images[1].fileName = "Character1Selected.bmp";
-					imageLayer.images[2].fileName = "Character2.bmp";
-					imageLayer.images[3].fileName = "Character3.bmp";
-				}
-				else if (selectedCharacterIndex == 2) {
-					imageLayer.images[2].fileName = "Character2Selected.bmp";
-					imageLayer.images[1].fileName = "Character1.bmp";
-					imageLayer.images[3].fileName = "Character3.bmp";
-				}
-				else {
-					imageLayer.images[3].fileName = "Character3Selected.bmp";
-					imageLayer.images[1].fileName = "Character1.bmp";
-					imageLayer.images[2].fileName = "Character2.bmp";
-				}
-
 				break;
-
 			case LEFT:
-				imageLayer.images[selectedCharacterIndex].x -= SPEED;
+				if (collisionCheck(imageLayer.images[0].x - SPEED, imageLayer.images[0].y))
+					dig(imageLayer.images[0].x - SPEED, imageLayer.images[0].y, &imageLayer);
+				imageLayer.images[0].x -= SPEED;
 				break;
 			case RIGHT:
-				imageLayer.images[selectedCharacterIndex].x += SPEED;
+				if (collisionCheck(imageLayer.images[0].x + SPEED, imageLayer.images[0].y))
+					dig(imageLayer.images[0].x + SPEED, imageLayer.images[0].y, &imageLayer);
+				imageLayer.images[0].x += SPEED;
 				break;
 			case UP:
-				imageLayer.images[selectedCharacterIndex].y -= SPEED;
+				if (collisionCheck(imageLayer.images[0].x, imageLayer.images[0].y - SPEED))
+					dig(imageLayer.images[0].x, imageLayer.images[0].y-SPEED, &imageLayer);
+				imageLayer.images[0].y -= SPEED;
 				break;
 			case DOWN:
-				imageLayer.images[selectedCharacterIndex].y += SPEED;
+				if (collisionCheck(imageLayer.images[0].x, imageLayer.images[0].y + SPEED))
+					dig(imageLayer.images[0].x, imageLayer.images[0].y+SPEED, &imageLayer);
+				imageLayer.images[0].y += SPEED;
+				break;
+			case ESC:
+				return;
 				break;
 			}
-
 			imageLayer.renderAll(&imageLayer);
 		}
 	}
@@ -143,4 +126,20 @@ void initialize() {
 	getHandle();
 	resizeConsole(CONSOLE_WIDTH, CONSOLE_HEIGHT);
 	removeCursor();
+}
+
+int collisionCheck(int x, int y) {
+	int infoX = x / 48;
+	if (y - 240 < 0) return 0;
+	int infoY = (y-240) / 48;
+	return tileInfo[infoY][infoX];
+}
+
+void dig(int x, int y, ImageLayer *imageLayer) {
+	int infoX = x / 48;
+	int infoY = (y - 240) / 48;
+	if (infoY < 0) return;
+	Image newImage = { NULL,x,y,1 };
+	imageLayer->images[infoY * 50 + infoX + 2] = newImage;
+	tileInfo[infoY][infoX] = 0;
 }
