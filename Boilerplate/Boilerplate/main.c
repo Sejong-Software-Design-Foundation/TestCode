@@ -26,7 +26,7 @@ S 를 눌러서 캐릭터 변경 가능
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
 
-int tileInfo[20][50];
+int tileInfo[21][51];
 void getHandle();
 void removeCursor();
 void resizeConsole(int w, int h);
@@ -42,7 +42,7 @@ int main() {
 	imageLayer.initialize(&imageLayer);
 
 	Image images[1100] = {
-		{"foo.bmp", 48,48, 1},
+		{"foo.bmp", 240,48, 1},
 		/*{"TestImage.bmp", 0, 0, 4},
 		{"Character1Selected.bmp", 200, 200, 8},
 		{"Character2.bmp", 600, 200, 8},
@@ -138,7 +138,7 @@ int collisionCheck(int x, int y) {
 void dig(int x, int y, ImageLayer *imageLayer) {
 	int infoX = x / 48;
 	int infoY = (y - 240) / 48;
-	if (infoY < 0) return;
+	if (infoY < 0 || infoY >= 20 || infoX < 0 || infoX >= 50) return;
 	Image newImage = { NULL,x,y,1 };
 	imageLayer->images[infoY * 50 + infoX + 2] = newImage;
 	tileInfo[infoY][infoX] = 0;
