@@ -48,11 +48,13 @@ int main() {
 		{"Ball.bmp", 1500, 500, 1},
 	};
 
+	int list[1] = { 3 };
+
 
 	imageLayer.imageCount = 5;
 	imageLayer.images = images;
 
-	imageLayer.renderAll(&imageLayer);
+	//imageLayer.renderAll(&imageLayer);
 
 	imageLayer.fadeOut(&imageLayer, NULL);
 	imageLayer.fadeIn(&imageLayer, NULL);
@@ -69,7 +71,8 @@ int main() {
 		images[4].y += dy;
 
 		Sleep(100);
-		imageLayer.renderAll(&imageLayer);
+		imageLayer.renderCertain(&imageLayer, list, 1);
+		//imageLayer.renderAll(&imageLayer);
 
 		while (_kbhit() != 0) {
 			int key = _getch();
@@ -113,7 +116,9 @@ int main() {
 				break;
 			}
 
-			imageLayer.renderAll(&imageLayer);
+		
+			//imageLayer.renderAll(&imageLayer);
+			imageLayer.renderCertain(&imageLayer, list, 1);
 		}
 	}
 	

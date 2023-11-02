@@ -93,9 +93,38 @@ inline HDC getRenderedBackDC(ImageLayer* self) {
 	return backDC;
 }
 
+inline HDC getCertainRenderedBackDC(ImageLayer* self, int* immutableImage, int size) {
+	const HDC backDC = createNewBackDC(self->_consoleDC);
+
+	for (int i = 0; i < self->imageCount; i++) {
+		int isNotRenderImage = 0;
+		for (int j = 0; j < size; j++) {
+			if (i == immutableImage[j]) {
+				isNotRenderImage = 1;
+				break;
+			}
+		}
+		if (isNotRenderImage == 1) {
+			continue;
+		}
+
+		if (!self->images[i].isHide)
+			putBitmapToBackDC(backDC, self->images[i], self->transparentColor);
+	}
+	return backDC;
+}
+
 //화면에 이미지 레이어를 출력해줌
 inline void _renderAll(ImageLayer* self) {
 	const HDC backDC = getRenderedBackDC(self);
+	if (self->applyToDC != NULL) self->applyToDC(backDC);
+	applyToDC(self->_consoleDC, backDC);
+	DeleteDC(backDC);
+}
+
+//화면에 이미지 레이어를 출력해줌
+inline void _renderCertain(ImageLayer* self, int* immutableImage, int size) {
+	const HDC backDC = getCertainRenderedBackDC(self, immutableImage, size);
 	if (self->applyToDC != NULL) self->applyToDC(backDC);
 	applyToDC(self->_consoleDC, backDC);
 	DeleteDC(backDC);
