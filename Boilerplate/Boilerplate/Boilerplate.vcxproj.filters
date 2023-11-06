@@ -79,6 +79,9 @@
     <Image Include="simpleMap.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="PlayerCharacter.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\CodeTheCompany\ConsoleGame\resources\sounds\null_sound.wav">

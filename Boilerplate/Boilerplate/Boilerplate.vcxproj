@@ -159,6 +159,7 @@
     <Image Include="Character3Selected.bmp" />
     <Image Include="foo.bmp" />
     <Image Include="ores.bmp" />
+    <Image Include="PlayerCharacter.bmp" />
     <Image Include="simpleMap.bmp" />
     <Image Include="TestImage.bmp" />
   </ItemGroup>

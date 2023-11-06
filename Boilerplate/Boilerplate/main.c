@@ -26,7 +26,7 @@ S 를 눌러서 캐릭터 변경 가능
 HANDLE CONSOLE_INPUT, CONSOLE_OUTPUT;
 HWND WINDOW_HANDLE;
 
-int tileInfo[21][51];
+int tileInfo[26][26];
 void getHandle();
 void removeCursor();
 void resizeConsole(int w, int h);
@@ -42,7 +42,7 @@ int main() {
 	imageLayer.initialize(&imageLayer);
 
 	Image images[1100] = {
-		{"foo.bmp", 240,48, 1},
+		{"PlayerCharacter.bmp", 240,48, 1},
 		/*{"TestImage.bmp", 0, 0, 4},
 		{"Character1Selected.bmp", 200, 200, 8},
 		{"Character2.bmp", 600, 200, 8},
@@ -52,8 +52,8 @@ int main() {
 	};
 
 	imageLayer.imageCount = 2;
-	for (int y = 240;y < 240 + 48 * 20;y+=48) {
-		for (int x = 0;x < 48 * 50;x += 48) {
+	for (int y = 240;y < 240 + 48 * 25;y+=48) {
+		for (int x = 0;x < 48 * 25;x += 48) {
 			Image newTile = { "simpleMap.bmp", x, y, 1 };
 			images[imageLayer.imageCount++] = newTile;
 			tileInfo[(y - 240) / 48][x / 48] = 1;
@@ -75,28 +75,31 @@ int main() {
 			case LEFT:
 				if (collisionCheck(imageLayer.images[0].x - SPEED, imageLayer.images[0].y))
 					dig(imageLayer.images[0].x - SPEED, imageLayer.images[0].y, &imageLayer);
-				imageLayer.images[0].x -= SPEED;
+				else imageLayer.images[0].x -= SPEED;
+				imageLayer.renderAll(&imageLayer);
 				break;
 			case RIGHT:
 				if (collisionCheck(imageLayer.images[0].x + SPEED, imageLayer.images[0].y))
 					dig(imageLayer.images[0].x + SPEED, imageLayer.images[0].y, &imageLayer);
-				imageLayer.images[0].x += SPEED;
+				else imageLayer.images[0].x += SPEED;
+				imageLayer.renderAll(&imageLayer);
 				break;
 			case UP:
 				if (collisionCheck(imageLayer.images[0].x, imageLayer.images[0].y - SPEED))
 					dig(imageLayer.images[0].x, imageLayer.images[0].y-SPEED, &imageLayer);
-				imageLayer.images[0].y -= SPEED;
+				else imageLayer.images[0].y -= SPEED;
+				imageLayer.renderAll(&imageLayer);
 				break;
 			case DOWN:
 				if (collisionCheck(imageLayer.images[0].x, imageLayer.images[0].y + SPEED))
 					dig(imageLayer.images[0].x, imageLayer.images[0].y+SPEED, &imageLayer);
-				imageLayer.images[0].y += SPEED;
+				else imageLayer.images[0].y += SPEED;
+				imageLayer.renderAll(&imageLayer);
 				break;
 			case ESC:
 				return;
 				break;
 			}
-			imageLayer.renderAll(&imageLayer);
 		}
 	}
 	
@@ -138,8 +141,8 @@ int collisionCheck(int x, int y) {
 void dig(int x, int y, ImageLayer *imageLayer) {
 	int infoX = x / 48;
 	int infoY = (y - 240) / 48;
-	if (infoY < 0 || infoY >= 20 || infoX < 0 || infoX >= 50) return;
+	if (infoY < 0 || infoY >= 25 || infoX < 0 || infoX >= 25) return;
 	Image newImage = { NULL,x,y,1 };
-	imageLayer->images[infoY * 50 + infoX + 2] = newImage;
+	imageLayer->images[infoY * 25 + infoX + 2] = newImage;
 	tileInfo[infoY][infoX] = 0;
 }
